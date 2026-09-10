@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "NEXORA AI"
+description = "An AI-powered community issue reporting and resolution platform for citizens, staff, and city administrators."
+version = "1.0.0"
+id = "artifacts/nexora-ai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23051
+
+[services.development]
+run = "pnpm --filter @workspace/nexora-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nexora-ai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/nexora-ai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23051"
+BASE_PATH = "/"
